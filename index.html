@@ -11,8 +11,10 @@
     }
     .container {
       height: 100%;
-      background-size: cover;
-      background-position: center;
+      background-size: contain;       /* Arka plan tam görünsün, kırpılmasın */
+      background-repeat: no-repeat;   /* Arka plan tekrarlanmasın */
+      background-position: center;    /* Ortada dursun */
+      background-color: black;        /* Boşluklar siyah */
       transition: background-image 0.5s ease-in-out;
       position: relative;
     }
@@ -124,16 +126,4 @@
       }
     });
 
-    const toggleVoiceBtn = document.getElementById('toggleVoice');
-    toggleVoiceBtn.addEventListener('click', () => {
-      if (voicePlayer.paused) {
-        voicePlayer.play();
-        toggleVoiceBtn.textContent = '⏸ Durdur';
-      } else {
-        voicePlayer.pause();
-        toggleVoiceBtn.textContent = '▶ Oynat';
-      }
-    });
-  </script>
-</body>
-</html>
+    const toggleVoiceBtn =
