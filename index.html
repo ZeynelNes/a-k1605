@@ -100,6 +100,70 @@
     const voicePlayer = document.getElementById('voicePlayer');
 
     // Ses seviyeleri kontrolü
+    <html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Şarkı Geçme Örneği</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f0f0f0;
+    }
+
+    audio {
+      width: 300px;
+      margin: 20px 0;
+    }
+
+    button {
+      background-color: pink;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: hotpink;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 Şarkı Çalar 🎵</h1>
+  
+  <audio id="musicPlayer" controls></audio>
+  <br />
+  <button id="nextMusic">İleri Şarkı ⏭</button>
+
+  <script>
+    const musicPlayer = document.getElementById("musicPlayer");
+    const nextMusicBtn = document.getElementById("nextMusic");
+
+    const musicList = ["music1.mp3", "music2.mp3", "music3.mp3"];
+    let currentTrackIndex = 0;
+
+    function loadAndPlay(index) {
+      musicPlayer.src = musicList[index];
+      musicPlayer.play();
+    }
+
+    nextMusicBtn.addEventListener("click", () => {
+      currentTrackIndex = (currentTrackIndex + 1) % musicList.length;
+      loadAndPlay(currentTrackIndex);
+    });
+
+    // Sayfa yüklendiğinde ilk şarkıyı çal
+    window.addEventListener("DOMContentLoaded", () => {
+      loadAndPlay(currentTrackIndex);
+    });
+  </script>
+</body>
+</html>
+///
     const musicVolume = document.getElementById('musicVolume');
     musicVolume.addEventListener('input', () => {
       musicPlayer.volume = musicVolume.value;
