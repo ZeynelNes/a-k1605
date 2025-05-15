@@ -63,3 +63,42 @@ toggleVoiceBtn.addEventListener('click', () => {
     toggleVoiceBtn.textContent = '▶ Oynat';
   }
 });
+
+const container = document.querySelector('.container');
+
+const backgrounds = [
+  'background1.jpg',
+  'background2.jpg',
+  'background3.jpg',
+  'background4.jpg',
+  'background5.jpg',
+  'background6.jpg',
+  'background7.jpg',
+  'background8.jpg',
+  'background9.jpg',
+  'background10.jpg',
+  'background11.jpg',
+  'background12.jpg',
+  'background13.jpg',
+  'background14.jpg',
+  'background15.jpg',
+  'background16.jpg',
+  'background17.jpg',
+  'background18.jpg',
+  'background19.jpg',
+  
+];
+
+let currentBgIndex = 0;
+
+function changeBackground() {
+  container.style.backgroundImage = `url(${backgrounds[currentBgIndex]})`;
+  currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+}
+
+// İlk arka planı ayarla
+changeBackground();
+
+// Her 5 saniyede arka planı değiştir
+setInterval(changeBackground, 5000);
+
