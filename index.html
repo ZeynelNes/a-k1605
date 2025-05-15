@@ -44,14 +44,14 @@
         <button id="prevBtn">⏮ Geri</button>
         <button id="nextBtn">İleri ⏭</button>
         <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleMusic">⏸ Duraklat</button>
+        <button id="playMusic">▶ Oynat</button>
         <button id="stopMusic">⏹ Durdur</button>
       </div>
 
       <div class="voice-controls">
         <h3>Ses Kaydı</h3>
         <input type="range" id="voiceVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleVoice">⏸ Duraklat</button>
+        <button id="playVoice">▶ Oynat</button>
         <button id="stopVoice">⏹ Durdur</button>
       </div>
 
@@ -84,9 +84,17 @@
     const musicPlayer = document.getElementById('musicPlayer');
     const voicePlayer = document.getElementById('voicePlayer');
 
+    document.getElementById('playMusic').addEventListener('click', () => {
+      musicPlayer.play();
+    });
+
     document.getElementById('stopMusic').addEventListener('click', () => {
       musicPlayer.pause();
       musicPlayer.currentTime = 0;
+    });
+
+    document.getElementById('playVoice').addEventListener('click', () => {
+      voicePlayer.play();
     });
 
     document.getElementById('stopVoice').addEventListener('click', () => {
