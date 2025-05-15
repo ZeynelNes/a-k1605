@@ -1,129 +1,23 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sesli Arka Plan</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      overflow: hidden;
-    }
-    .container {
-      height: 100%;
-      background-size: contain;       /* Arka plan tam görünsün, kırpılmasın */
-      background-repeat: no-repeat;   /* Arka plan tekrarlanmasın */
-      background-position: center;    /* Ortada dursun */
-      background-color: black;        /* Boşluklar siyah */
-      transition: background-image 0.5s ease-in-out;
-      position: relative;
-    }
-    button {
-      background-color: pink;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 5px 0;
-      font-size: 14px;
-    }
-    button:hover {
-      background-color: hotpink;
-    }
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 20px;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      width: 220px;
-      font-family: Arial, sans-serif;
-    }
-    .controls h3 {
-      margin: 0 0 10px 0;
-      font-weight: normal;
-      font-size: 18px;
-    }
-    input[type=range] {
-      width: 100%;
-      margin: 8px 0;
-      background-color: black;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Test Background</title>
+<style>
+  body, html {
+    margin:0; padding:0; height:100%;
+  }
+  .container {
+    height: 100%;
+    background-image: url('background1.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: black;
+  }
+</style>
 </head>
 <body>
-  <div class="container" id="container">
-    <audio id="musicPlayer" loop src="music1.mp3"></audio>
-    <audio id="voicePlayer" loop src="voice.mp3"></audio>
-
-    <div class="controls">
-      <div class="music-controls">
-        <h3>Arka Plan Müzik</h3>
-        <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleMusic">▶ Oynat / ⏸ Durdur</button>
-      </div>
-
-      <div class="voice-controls" style="margin-top:20px;">
-        <h3>Ses Kaydı</h3>
-        <input type="range" id="voiceVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleVoice">▶ Oynat / ⏸ Durdur</button>
-      </div>
-
-      <button id="changeBgBtn" style="margin-top: 15px;">Arka Planı Değiştir</button>
-    </div>
-  </div>
-
-  <script>
-    const container = document.getElementById('container');
-    const changeBgBtn = document.getElementById('changeBgBtn');
-
-    const backgrounds = [
-      'background1.jpg', 'background2.jpg', 'background3.jpg', 'background4.jpg', 'background5.jpg',
-      'background6.jpg', 'background7.jpg', 'background8.jpg', 'background9.jpg', 'background10.jpg',
-      'background11.jpg', 'background12.jpg', 'background13.jpg', 'background14.jpg', 'background15.jpg',
-      'background16.jpg', 'background17.jpg', 'background18.jpg', 'background19.jpg'
-    ];
-
-    let currentBgIndex = 0;
-
-    function changeBackground() {
-      container.style.backgroundImage = `url(${backgrounds[currentBgIndex]})`;
-      currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
-    }
-
-    changeBgBtn.addEventListener('click', changeBackground);
-    window.addEventListener('DOMContentLoaded', changeBackground);
-
-    // Ses elemanları
-    const musicPlayer = document.getElementById('musicPlayer');
-    const voicePlayer = document.getElementById('voicePlayer');
-
-    // Ses seviyeleri kontrolü
-    const musicVolume = document.getElementById('musicVolume');
-    musicVolume.addEventListener('input', () => {
-      musicPlayer.volume = musicVolume.value;
-    });
-    musicPlayer.volume = musicVolume.value;
-
-    const voiceVolume = document.getElementById('voiceVolume');
-    voiceVolume.addEventListener('input', () => {
-      voicePlayer.volume = voiceVolume.value;
-    });
-    voicePlayer.volume = voiceVolume.value;
-
-    // Oynat / Durdur toggle butonları
-    const toggleMusicBtn = document.getElementById('toggleMusic');
-    toggleMusicBtn.addEventListener('click', () => {
-      if (musicPlayer.paused) {
-        musicPlayer.play();
-        toggleMusicBtn.textContent = '⏸ Durdur';
-      } else {
-        musicPlayer.pause();
-        toggleMusicBtn.textContent = '▶ Oynat';
-      }
-    });
-
-    const toggleVoiceBtn =
+  <div class="container"></div>
+</body>
+</html>
