@@ -121,6 +121,43 @@ toggleVoiceBtn.addEventListener('click', () => {
     voicePlayer.pause();
     toggleVoiceBtn.textContent = '▶ Oynat';
   }
+
+  const musicPlayer = document.getElementById('musicPlayer');
+const musicTracks = [
+  'music1.mp3',
+  'music2.mp3',
+  'music3.mp3'
+];
+let currentTrackIndex = 0;
+
+function loadMusic(index) {
+  musicPlayer.src = musicTracks[index];
+  musicPlayer.load();
+}
+
+document.getElementById('playMusic').addEventListener('click', () => {
+  if (!musicPlayer.src) loadMusic(currentTrackIndex);
+  musicPlayer.play();
+});
+
+document.getElementById('stopMusic').addEventListener('click', () => {
+  musicPlayer.pause();
+  musicPlayer.currentTime = 0;
+});
+
+// Geri ve ileri butonları
+document.getElementById('prevBtn').addEventListener('click', () => {
+  currentTrackIndex = (currentTrackIndex - 1 + musicTracks.length) % musicTracks.length;
+  loadMusic(currentTrackIndex);
+  musicPlayer.play();
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+  loadMusic(currentTrackIndex);
+  musicPlayer.play();
+});
+
 });
 
 
