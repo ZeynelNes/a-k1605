@@ -2,23 +2,33 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sesli Arka Plan</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      overflow: hidden;
+    }
+    .container {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease-in-out;
+      position: relative;
+    }
     button {
       background-color: pink;
-      color: black;
-      padding: 10px;
+      color: white;
+      padding: 10px 15px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin: 5px 0;
+      font-size: 14px;
     }
-
     button:hover {
       background-color: hotpink;
     }
-
     .controls {
       position: absolute;
       bottom: 20px;
@@ -27,40 +37,45 @@
       padding: 20px;
       border-radius: 10px;
       backdrop-filter: blur(10px);
+      width: 220px;
+      font-family: Arial, sans-serif;
+    }
+    .controls h3 {
+      margin: 0 0 10px 0;
+      font-weight: normal;
+      font-size: 18px;
+    }
+    input[type=range] {
+      width: 100%;
+      margin: 8px 0;
+      background-color: black;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <audio id="musicPlayer" loop></audio>
-    <audio id="voicePlayer" loop>
-      <source src="voice.mp3" type="audio/mpeg" />
-      Tarayıcınız audio etiketini desteklemiyor.
-    </audio>
+  <div class="container" id="container">
+    <audio id="musicPlayer" loop src="music1.mp3"></audio>
+    <audio id="voicePlayer" loop src="voice.mp3"></audio>
 
     <div class="controls">
       <div class="music-controls">
         <h3>Arka Plan Müzik</h3>
-        <button id="prevBtn">⏮ Geri</button>
-        <button id="nextBtn">İleri ⏭</button>
         <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="playMusic">▶ Oynat</button>
-        <button id="stopMusic">⏹ Durdur</button>
+        <button id="toggleMusic">▶ Oynat / ⏸ Durdur</button>
       </div>
 
-      <div class="voice-controls">
+      <div class="voice-controls" style="margin-top:20px;">
         <h3>Ses Kaydı</h3>
         <input type="range" id="voiceVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="playVoice">▶ Oynat</button>
-        <button id="stopVoice">⏹ Durdur</button>
+        <button id="toggleVoice">▶ Oynat / ⏸ Durdur</button>
       </div>
 
-      <button id="changeBgBtn">Arka Planı Değiştir</button>
+      <button id="changeBgBtn" style="margin-top: 15px;">Arka Planı Değiştir</button>
     </div>
   </div>
 
   <script>
-    const container = document.querySelector('.container');
+    const container = document.getElementById('container');
     const changeBgBtn = document.getElementById('changeBgBtn');
 
     const backgrounds = [
@@ -80,29 +95,45 @@
     changeBgBtn.addEventListener('click', changeBackground);
     window.addEventListener('DOMContentLoaded', changeBackground);
 
-    // Müzik ve ses kontrolleri
+    // Ses elemanları
     const musicPlayer = document.getElementById('musicPlayer');
     const voicePlayer = document.getElementById('voicePlayer');
 
-    document.getElementById('playMusic').addEventListener('click', () => {
-      musicPlayer.play();
+    // Ses seviyeleri kontrolü
+    const musicVolume = document.getElementById('musicVolume');
+    musicVolume.addEventListener('input', () => {
+      musicPlayer.volume = musicVolume.value;
+    });
+    musicPlayer.volume = musicVolume.value;
+
+    const voiceVolume = document.getElementById('voiceVolume');
+    voiceVolume.addEventListener('input', () => {
+      voicePlayer.volume = voiceVolume.value;
+    });
+    voicePlayer.volume = voiceVolume.value;
+
+    // Oynat / Durdur toggle butonları
+    const toggleMusicBtn = document.getElementById('toggleMusic');
+    toggleMusicBtn.addEventListener('click', () => {
+      if (musicPlayer.paused) {
+        musicPlayer.play();
+        toggleMusicBtn.textContent = '⏸ Durdur';
+      } else {
+        musicPlayer.pause();
+        toggleMusicBtn.textContent = '▶ Oynat';
+      }
     });
 
-    document.getElementById('stopMusic').addEventListener('click', () => {
-      musicPlayer.pause();
-      musicPlayer.currentTime = 0;
-    });
-
-    document.getElementById('playVoice').addEventListener('click', () => {
-      voicePlayer.play();
-    });
-
-    document.getElementById('stopVoice').addEventListener('click', () => {
-      voicePlayer.pause();
-      voicePlayer.currentTime = 0;
+    const toggleVoiceBtn = document.getElementById('toggleVoice');
+    toggleVoiceBtn.addEventListener('click', () => {
+      if (voicePlayer.paused) {
+        voicePlayer.play();
+        toggleVoiceBtn.textContent = '⏸ Durdur';
+      } else {
+        voicePlayer.pause();
+        toggleVoiceBtn.textContent = '▶ Oynat';
+      }
     });
   </script>
-
-  <script src="script.js"></script>
 </body>
 </html>
