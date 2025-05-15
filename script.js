@@ -8,6 +8,26 @@ const prevBtn = document.getElementById('prevBtn');
 // Müzik listesi
 
 // const container = document.querySelector('.container');
+const container = document.querySelector('.container');
+const backgrounds = [
+  'background1.jpg',
+  'background2.jpg',
+  'background3.jpg'
+];
+let currentBgIndex = 0;
+
+function changeBackground() {
+  container.style.backgroundImage = `url(${backgrounds[currentBgIndex]})`;
+  currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+}
+
+// Sayfa yüklenince ilk arka planı ayarla
+changeBackground();
+
+// Buton ile manuel değiştirme
+const changeBgBtn = document.getElementById('changeBgBtn');
+changeBgBtn.addEventListener('click', changeBackground);
+
 
 const backgrounds = [
   'background1.jpg',
