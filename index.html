@@ -1,234 +1,43 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sesli Arka Plan ve Not</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      overflow: hidden;
-    }
-    .container {
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.5s ease-in-out;
-      position: relative;
-    }
-    button {
-      background-color: pink;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 5px 0;
-      font-size: 14px;
-    }
-    button:hover {
-      background-color: hotpink;
-    }
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 20px;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      width: 220px;
-      font-family: Arial, sans-serif;
-    }
-    .controls h3 {
-      margin: 0 0 10px 0;
-      font-weight: normal;
-      font-size: 18px;
-    }
-    input[type=range] {
-      width: 100%;
-      margin: 8px 0;
-      background-color: black;
-    }
-    #gifDisplay {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1001;
-      display: none;
-    }
-    #gifDisplay img {
-      max-width: 300px;
-    }
-    #messageBox {
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      background: rgba(255,255,255,0.9);
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-    #messageInput {
-      width: 200px;
-      padding: 8px;
-      margin-bottom: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    @media (max-width: 600px) {
-      #notePanel {
-        width: 100%;
-        right: -100%;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Panel UI</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container" id="container">
-    <audio id="musicPlayer" loop src="music1.mp3"></audio>
-    <audio id="voicePlayer" loop src="voice.mp3"></audio>
+  <div id="container" class="container">
+    <div class="panel" id="musicPanel">
+      <h2>Müzik</h2>
+      <audio id="musicPlayer" controls></audio>
+      <input type="range" id="musicVolume" min="0" max="1" step="0.01">
+      <button id="toggleMusic">▶ Oynat</button>
+      <button id="prevBtn">⏮ Önceki</button>
+      <button id="nextBtn">⏭ Sonraki</button>
+    </div>
 
-    <div class="controls">
-      <div class="music-controls">
-        <h3>Arka Plan Müzik</h3>
-        <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleMusic">▶ Oynat / ⏸ Durdur</button>
-        <button id="nextMusic">⏭ Sonraki Şarkı</button>
-        <div id="nowPlaying" style="margin-top: 10px; font-size: 14px;"></div>
-      </div>
+    <div class="panel" id="voicePanel">
+      <h2>Ses</h2>
+      <audio id="voicePlayer" src="voice.mp3" loop></audio>
+      <input type="range" id="voiceVolume" min="0" max="1" step="0.01">
+      <button id="toggleVoice">▶ Oynat</button>
+    </div>
 
-      <div class="voice-controls" style="margin-top:20px;">
-        <h3>Ses Kaydı</h3>
-        <input type="range" id="voiceVolume" min="0" max="1" step="0.01" value="0.5" />
-        <button id="toggleVoice">▶ Oynat / ⏸ Durdur</button>
-      </div>
+    <div class="panel" id="messagePanel">
+      <h2>Mesaj</h2>
+      <div id="messages" class="messages"></div>
+      <input type="text" id="messageInput" placeholder="Mesaj yaz...">
+      <button onclick="sendMessage()">Gönder</button>
+    </div>
 
-      <button id="changeBgBtn" style="margin-top: 15px;">Arka Planı Değiştir</button>
+    <button id="changeBgBtn">Arka Planı Değiştir</button>
+
+    <div id="gifContainer" class="gif-container">
+      <img id="gifImage" src="" alt="GIF">
     </div>
   </div>
 
-  <div id="notePanel" style="position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: -2px 0 8px rgba(0,0,0,0.2); padding: 20px; transition: right 0.4s ease; z-index: 999; overflow-y: auto; font-family: Arial, sans-serif;">
-    <h2 style="margin-top: 0;">💖 Not</h2>
-    <p id="noteText" style="white-space: pre-wrap; line-height: 1.5;"></p>
-  </div>
-
-  <button onclick="toggleNote()" style="position: fixed; bottom: 20px; right: 20px; background-color: palevioletred; color: white; border: none; padding: 12px 18px; border-radius: 30px; cursor: pointer; font-size: 16px; z-index: 1000;">💌 Notu Göster</button>
-
-  <div id="messageBox">
-    <input type="text" id="messageInput" placeholder="Mesaj yaz..." />
-    <button onclick="checkMessage()">Gönder</button>
-  </div>
-  <div id="gifDisplay"><img id="gifImage" src="" alt="gif" /></div>
-
-  <script>
-    const container = document.getElementById('container');
-    const changeBgBtn = document.getElementById('changeBgBtn');
-    const backgrounds = [
-      'background1.jpg', 'background2.jpg', 'background3.jpg',
-      'background4.jpg', 'background5.jpg', 'background6.jpg',
-      'background7.jpg', 'background8.jpg', 'background9.jpg',
-      'background10.jpg', 'background11.jpg', 'background12.jpg',
-      'background13.jpg', 'background14.jpg', 'background15.jpg',
-      'background16.jpg', 'background17.jpg', 'background18.jpg', 'background19.jpg'
-    ];
-    let currentBgIndex = 0;
-    function changeBackground() {
-      container.style.backgroundImage = `url(${backgrounds[currentBgIndex]})`;
-      currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
-    }
-    changeBgBtn.addEventListener('click', changeBackground);
-    window.addEventListener('DOMContentLoaded', () => {
-      changeBackground();
-      document.getElementById('noteText').innerText = "Bu senin için yazılmış güzel bir not. Her zaman yanımda olman bana güç veriyor 💖";
-    });
-
-    const musicPlayer = document.getElementById('musicPlayer');
-    const voicePlayer = document.getElementById('voicePlayer');
-    const musicVolume = document.getElementById('musicVolume');
-    const voiceVolume = document.getElementById('voiceVolume');
-    const toggleMusicBtn = document.getElementById('toggleMusic');
-    const nextMusicBtn = document.getElementById('nextMusic');
-    const nowPlaying = document.getElementById('nowPlaying');
-
-    const musicTracks = ['music1.mp3', 'music2.mp3', 'music3.mp3'];
-    let currentTrackIndex = 0;
-
-    function updateNowPlaying() {
-      nowPlaying.innerText = `Çalan: ${musicTracks[currentTrackIndex]}`;
-    }
-
-    musicVolume.addEventListener('input', () => {
-      musicPlayer.volume = musicVolume.value;
-    });
-    voiceVolume.addEventListener('input', () => {
-      voicePlayer.volume = voiceVolume.value;
-    });
-    musicPlayer.volume = musicVolume.value;
-    voicePlayer.volume = voiceVolume.value;
-
-    toggleMusicBtn.addEventListener('click', () => {
-      if (musicPlayer.paused) {
-        musicPlayer.play();
-        toggleMusicBtn.textContent = '⏸ Durdur';
-      } else {
-        musicPlayer.pause();
-        toggleMusicBtn.textContent = '▶ Oynat';
-      }
-    });
-
-    nextMusicBtn.addEventListener('click', () => {
-      currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
-      musicPlayer.src = musicTracks[currentTrackIndex];
-      musicPlayer.play();
-      toggleMusicBtn.textContent = '⏸ Durdur';
-      updateNowPlaying();
-    });
-
-    updateNowPlaying();
-
-    const toggleVoiceBtn = document.getElementById('toggleVoice');
-    toggleVoiceBtn.addEventListener('click', () => {
-      if (voicePlayer.paused) {
-        voicePlayer.play();
-        toggleVoiceBtn.textContent = '⏸ Durdur';
-      } else {
-        voicePlayer.pause();
-        toggleVoiceBtn.textContent = '▶ Oynat';
-      }
-    });
-
-    let noteVisible = false;
-    function toggleNote() {
-      const panel = document.getElementById('notePanel');
-      panel.style.right = noteVisible ? '-400px' : '0';
-      noteVisible = !noteVisible;
-    }
-
-    function checkMessage() {
-      const message = document.getElementById('messageInput').value.toLowerCase();
-      const gifDisplay = document.getElementById('gifDisplay');
-      const gifImage = document.getElementById('gifImage');
-
-      if (message.includes('aşk')) {
-        gifImage.src = 'gifs/ask.gif';
-      } else if (message.includes('bal')) {
-        gifImage.src = 'gifs/bal.gif';
-      } else if (message.includes('abitim')) {
-        gifImage.src = 'gifs/abitim.gif';
-      } else {
-        alert("Bu kelime için bir GIF bulunamadı.");
-        gifDisplay.style.display = 'none';
-        return;
-      }
-
-      gifDisplay.style.display = 'block';
-      setTimeout(() => {
-        gifDisplay.style.display = 'none';
-      }, 3000);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
