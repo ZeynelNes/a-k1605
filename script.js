@@ -37,6 +37,7 @@ function loadMusic(index) {
   musicPlayer.load();
   musicPlayer.play();
 }
+
 musicPlayer.volume = musicVolume.value;
 voicePlayer.volume = voiceVolume.value;
 voicePlayer.play();
@@ -48,6 +49,7 @@ musicVolume.addEventListener('input', () => {
 voiceVolume.addEventListener('input', () => {
   voicePlayer.volume = voiceVolume.value;
 });
+
 toggleMusicBtn.addEventListener('click', () => {
   if (musicPlayer.paused) {
     musicPlayer.play();
@@ -57,6 +59,7 @@ toggleMusicBtn.addEventListener('click', () => {
     toggleMusicBtn.textContent = '▶ Oynat';
   }
 });
+
 toggleVoiceBtn.addEventListener('click', () => {
   if (voicePlayer.paused) {
     voicePlayer.play();
@@ -66,10 +69,12 @@ toggleVoiceBtn.addEventListener('click', () => {
     toggleVoiceBtn.textContent = '▶ Oynat';
   }
 });
+
 nextBtn.addEventListener('click', () => {
   currentMusicIndex = (currentMusicIndex + 1) % musicList.length;
   loadMusic(currentMusicIndex);
 });
+
 prevBtn.addEventListener('click', () => {
   currentMusicIndex = (currentMusicIndex - 1 + musicList.length) % musicList.length;
   loadMusic(currentMusicIndex);
@@ -132,3 +137,64 @@ function showGif(url) {
     gifContainer.style.display = 'none';
   }, 4000);
 }
+
+// ----------- Kalp Baloncukları İçin Eklenen Kod -----------
+
+const loveBubblesContainer = document.createElement('div');
+loveBubblesContainer.id = 'loveBubblesContainer';
+document.body.appendChild(loveBubblesContainer);
+
+const loveMessages = [
+  "Seni sonsuza dek seveceğim ❤️",
+  "Kalbim hep seninle atıyor 💖",
+  "Sen benim en değerli hazinemsin 💎",
+  "Sevginle hayatım güzelleşiyor 🌸",
+  "Seninle her an bir mucize 🌟",
+  "Aşkımız yıldızlar kadar parlak ✨",
+  "Seninle tamamlanıyorum 💞",
+  "Seni düşündükçe gülümsüyorum 😊",
+  "Kalbimin en tatlı melodisi sensin 🎶",
+  "Birlikte her şey mümkün ❤️‍🔥",
+  "Sen benim en güzel rüyamsın 🌙",
+  "Sevginle güç buluyorum 💪",
+  "Seninle hayat bir masal gibi 📖",
+  "Kalbim sana ait 💘",
+  "Sonsuzluğa birlikte yürüyelim 🚶‍♂️🚶‍♀️",
+  "Sen benim huzurumsun 🕊️",
+  "Aşkımızı kimse silemez 🛡️",
+  "Seninle hayatım tamamlandı 🎯",
+  "Kalbim hep senin yanında 💗",
+  "Sen benim en güzel baharımsın 🌷"
+];
+
+function createLoveBubble() {
+  const bubble = document.createElement('div');
+  bubble.classList.add('love-bubble');
+
+  // Rasgele sevgi mesajı seç
+  const message = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+  bubble.textContent = message;
+
+  // Ekranın kenarlarında rastgele pozisyonlar:
+  let side = Math.random() < 0.5 ? 'left' : 'right';
+  let xPercent = side === 'left' 
+    ? Math.random() * 10
+    : 90 + Math.random() * 10;
+  let yPercent = Math.random() * 90;
+
+  bubble.style.left = xPercent + '%';
+  bubble.style.top = yPercent + '%';
+
+  loveBubblesContainer.appendChild(bubble);
+
+  // 7-8 saniye sonra baloncuk kaybolsun
+  setTimeout(() => {
+    bubble.classList.add('fade-out');
+    setTimeout(() => {
+      bubble.remove();
+    }, 1000);
+  }, 7000 + Math.random() * 1000);
+}
+
+// Sürekli baloncuk çıkar (2 saniyede bir)
+setInterval(createLoveBubble, 2000);
