@@ -24,6 +24,55 @@ function changeBackground() {
 // Sayfa yüklenince ilk arka planı ayarla
 changeBackground();
 
+//sss
+<script>
+  // Mesaj panelini aç/kapat
+  let messagePanelVisible = false;
+  function toggleMessagePanel() {
+    const panel = document.getElementById('messagePanel');
+    panel.style.right = messagePanelVisible ? '-400px' : '0';
+    messagePanelVisible = !messagePanelVisible;
+  }
+
+  // Mesaj gönderme işlemi
+  function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const messages = document.getElementById('messages');
+    const message = input.value.trim();
+    if (message === '') return;
+
+    // Gönderilen mesajı göster
+    const msgElement = document.createElement('div');
+    msgElement.textContent = "❤️ " + message;
+    messages.appendChild(msgElement);
+    messages.scrollTop = messages.scrollHeight;
+
+    // Özel kelimelere göre gif göster
+    const lower = message.toLowerCase();
+    if (lower.includes("aşk")) {
+      showGif("gifs/ask.gif");
+    } else if (lower.includes("bal")) {
+      showGif("gifs/bal.gif");
+    } else if (lower.includes("abitim")) {
+      showGif("gifs/abitim.gif");
+    }
+
+    input.value = "";
+  }
+
+  // GIF gösterme fonksiyonu
+  function showGif(url) {
+    const gifContainer = document.getElementById('gifContainer');
+    const gifImage = document.getElementById('gifImage');
+    gifImage.src = url;
+    gifContainer.style.display = 'block';
+    setTimeout(() => {
+      gifContainer.style.display = 'none';
+    }, 4000); // 4 saniye göster
+  }
+</script>
+//
+
 // Buton ile manuel değiştirme
 const changeBgBtn = document.getElementById('changeBgBtn');
 changeBgBtn.addEventListener('click', changeBackground);
