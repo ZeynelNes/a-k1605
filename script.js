@@ -1,7 +1,6 @@
 const container = document.getElementById('container');
 const bgPanel = document.getElementById('bgPanel');
 const changeBgBtn = document.getElementById('changeBgBtn');
-const bgThumbnails = document.getElementById('bgThumbnails');
 
 const backgrounds = [
   'background1.jpg', 'background2.jpg', 'background3.jpg',
@@ -24,30 +23,7 @@ function changeBackground() {
   currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
 }
 changeBackground();
-
-// --- Küçük resimleri bgThumbnails container'ına ekle ---
-backgrounds.forEach((bg, i) => {
-  const img = document.createElement('img');
-  img.src = bg;
-  img.alt = `Background ${i + 1}`;
-  img.title = `Arka plan ${i + 1}`;
-  img.addEventListener('click', () => {
-    currentBgIndex = i;
-    changeBackground();
-  });
-  bgThumbnails.appendChild(img);
-});
-
-let bgPanelVisible = true;
-
-// bgPanel görünürlüğünü toggle et (aç/kapa)
-changeBgBtn.addEventListener('click', () => {
-  bgPanelVisible = !bgPanelVisible;
-  bgPanel.style.display = bgPanelVisible ? 'flex' : 'none';
-});
-
-// İstersen, otomatik değişim iptal edildi. İstersen aşağıdaki satırı açabilirsin:
-// setInterval(changeBackground, 5000);
+changeBgBtn.addEventListener('click', changeBackground);
 
 // ----- Geri kalan kod aynı -----
 
@@ -142,10 +118,18 @@ function sendMessage() {
   input.value = "";
 }
 
+// Yeni addReply fonksiyonu:
 function addReply(text) {
   const messages = document.getElementById('messages');
   const replyElement = document.createElement('div');
+  replyElement.classList.add('reply-bubble');  // yeni class
   replyElement.textContent = text;
+
+  // Tıklanınca balon kapanacak (silinecek)
+  replyElement.addEventListener('click', () => {
+    replyElement.remove();
+  });
+
   messages.appendChild(replyElement);
   messages.scrollTop = messages.scrollHeight;
 }
