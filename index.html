@@ -78,6 +78,12 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+    @media (max-width: 600px) {
+      #notePanel {
+        width: 100%;
+        right: -100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -91,6 +97,7 @@
         <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5" />
         <button id="toggleMusic">▶ Oynat / ⏸ Durdur</button>
         <button id="nextMusic">⏭ Sonraki Şarkı</button>
+        <div id="nowPlaying" style="margin-top: 10px; font-size: 14px;"></div>
       </div>
 
       <div class="voice-controls" style="margin-top:20px;">
@@ -105,7 +112,7 @@
 
   <div id="notePanel" style="position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: -2px 0 8px rgba(0,0,0,0.2); padding: 20px; transition: right 0.4s ease; z-index: 999; overflow-y: auto; font-family: Arial, sans-serif;">
     <h2 style="margin-top: 0;">💖 Not</h2>
-    <p style="white-space: pre-wrap; line-height: 1.5;">[...]</p>
+    <p id="noteText" style="white-space: pre-wrap; line-height: 1.5;"></p>
   </div>
 
   <button onclick="toggleNote()" style="position: fixed; bottom: 20px; right: 20px; background-color: palevioletred; color: white; border: none; padding: 12px 18px; border-radius: 30px; cursor: pointer; font-size: 16px; z-index: 1000;">💌 Notu Göster</button>
@@ -133,27 +140,34 @@
       currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
     }
     changeBgBtn.addEventListener('click', changeBackground);
-    window.addEventListener('DOMContentLoaded', changeBackground);
+    window.addEventListener('DOMContentLoaded', () => {
+      changeBackground();
+      document.getElementById('noteText').innerText = "Bu senin için yazılmış güzel bir not. Her zaman yanımda olman bana güç veriyor 💖";
+    });
 
     const musicPlayer = document.getElementById('musicPlayer');
     const voicePlayer = document.getElementById('voicePlayer');
     const musicVolume = document.getElementById('musicVolume');
-    musicVolume.addEventListener('input', () => {
-      musicPlayer.volume = musicVolume.value;
-    });
-    musicPlayer.volume = musicVolume.value;
-
     const voiceVolume = document.getElementById('voiceVolume');
-    voiceVolume.addEventListener('input', () => {
-      voicePlayer.volume = voiceVolume.value;
-    });
-    voicePlayer.volume = voiceVolume.value;
-
     const toggleMusicBtn = document.getElementById('toggleMusic');
     const nextMusicBtn = document.getElementById('nextMusic');
+    const nowPlaying = document.getElementById('nowPlaying');
 
     const musicTracks = ['music1.mp3', 'music2.mp3', 'music3.mp3'];
     let currentTrackIndex = 0;
+
+    function updateNowPlaying() {
+      nowPlaying.innerText = `Çalan: ${musicTracks[currentTrackIndex]}`;
+    }
+
+    musicVolume.addEventListener('input', () => {
+      musicPlayer.volume = musicVolume.value;
+    });
+    voiceVolume.addEventListener('input', () => {
+      voicePlayer.volume = voiceVolume.value;
+    });
+    musicPlayer.volume = musicVolume.value;
+    voicePlayer.volume = voiceVolume.value;
 
     toggleMusicBtn.addEventListener('click', () => {
       if (musicPlayer.paused) {
@@ -170,7 +184,10 @@
       musicPlayer.src = musicTracks[currentTrackIndex];
       musicPlayer.play();
       toggleMusicBtn.textContent = '⏸ Durdur';
+      updateNowPlaying();
     });
+
+    updateNowPlaying();
 
     const toggleVoiceBtn = document.getElementById('toggleVoice');
     toggleVoiceBtn.addEventListener('click', () => {
@@ -202,6 +219,7 @@
       } else if (message.includes('abitim')) {
         gifImage.src = 'gifs/abitim.gif';
       } else {
+        alert("Bu kelime için bir GIF bulunamadı.");
         gifDisplay.style.display = 'none';
         return;
       }
