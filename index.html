@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Heart Panel UI</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="container" class="container">
     <div class="panel" id="musicPanel">
       <h2>Müzik</h2>
       <audio id="musicPlayer" controls></audio>
-      <input type="range" id="musicVolume" min="0" max="1" step="0.01">
+      <input type="range" id="musicVolume" min="0" max="1" step="0.01" />
       <button id="toggleMusic">▶ Oynat</button>
       <button id="prevBtn">⏮ Önceki</button>
       <button id="nextBtn">⏭ Sonraki</button>
@@ -20,21 +20,27 @@
     <div class="panel" id="voicePanel">
       <h2>Ses</h2>
       <audio id="voicePlayer" src="voice.mp3" loop></audio>
-      <input type="range" id="voiceVolume" min="0" max="1" step="0.01">
+      <input type="range" id="voiceVolume" min="0" max="1" step="0.01" />
       <button id="toggleVoice">▶ Oynat</button>
     </div>
 
     <div class="panel" id="messagePanel">
       <h2>Mesaj</h2>
       <div id="messages" class="messages"></div>
-      <input type="text" id="messageInput" placeholder="Mesaj yaz...">
+      <input type="text" id="messageInput" placeholder="Mesaj yaz..." />
       <button onclick="sendMessage()">Gönder</button>
     </div>
 
     <button id="changeBgBtn">Arka Planı Değiştir</button>
 
+    <!-- Arka plan paneli -->
+    <div id="bgPanel" class="panel hidden">
+      <h3>Arka Plan Seçimi</h3>
+      <div id="bgThumbnails"></div>
+    </div>
+
     <div id="gifContainer" class="gif-container">
-      <img id="gifImage" src="" alt="GIF">
+      <img id="gifImage" src="" alt="GIF" />
     </div>
   </div>
 
