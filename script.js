@@ -1,6 +1,7 @@
 const container = document.getElementById('container');
 const bgPanel = document.getElementById('bgPanel');
 const changeBgBtn = document.getElementById('changeBgBtn');
+const bgThumbnails = document.getElementById('bgThumbnails');
 
 const backgrounds = [
   'background1.jpg', 'background2.jpg', 'background3.jpg',
@@ -23,7 +24,27 @@ function changeBackground() {
   currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
 }
 changeBackground();
-changeBgBtn.addEventListener('click', changeBackground);
+
+// --- Küçük resimleri bgThumbnails container'ına ekle ---
+backgrounds.forEach((bg, i) => {
+  const img = document.createElement('img');
+  img.src = bg;
+  img.alt = `Background ${i + 1}`;
+  img.title = `Arka plan ${i + 1}`;
+  img.addEventListener('click', () => {
+    currentBgIndex = i;
+    changeBackground();
+  });
+  bgThumbnails.appendChild(img);
+});
+
+let bgPanelVisible = true;
+
+// bgPanel görünürlüğünü toggle et (aç/kapa)
+changeBgBtn.addEventListener('click', () => {
+  bgPanelVisible = !bgPanelVisible;
+  bgPanel.style.display = bgPanelVisible ? 'flex' : 'none';
+});
 
 // İstersen, otomatik değişim iptal edildi. İstersen aşağıdaki satırı açabilirsin:
 // setInterval(changeBackground, 5000);
