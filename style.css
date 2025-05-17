@@ -6,9 +6,10 @@ body, html {
 }
 
 .container {
-  background-image: url("background.jpg");
-  background-size: cover;
-  background-position: center;
+  background-color: #ffd1dc; /* toz pembe */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ctext y='1em' font-size='24'%3E%F0%9F%A7%BB%F0%9F%8D%B5%F0%9F%A4%97%F0%9F%92%84%F0%9F%91%97%F0%9F%A7%92%3C/text%3E%3C/svg%3E");
+  background-size: 100px 100px;
+  background-repeat: repeat;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -26,7 +27,6 @@ body, html {
   margin: 10px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(255, 0, 102, 0.3);
-  transition: transform 0.3s ease, opacity 0.3s ease;
   background-image: url("heart-bg.png");
   background-repeat: repeat;
   background-size: 80px 80px;
@@ -91,4 +91,41 @@ button:hover {
   top: 20px;
   right: 20px;
   z-index: 10;
+}
+
+#bgPanel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+}
+
+#bgPanel h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #d63384;
+}
+
+#bgThumbnails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#bgThumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#bgThumbnails img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 0, 102, 0.5);
 }
